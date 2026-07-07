@@ -168,8 +168,6 @@ Owner Withdraw Function
 Unit Tests
 Deploy to Sepolia Testnet
 
-<img width="100" height="206" alt="Image" src="https://github.com/user-attachments/assets/246db7d5-326e-4f25-b433-7429d307819b" />
-
 
 
 This project is licensed under the GPL-3.0 License.
