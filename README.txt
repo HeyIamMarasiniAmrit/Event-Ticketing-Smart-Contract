@@ -1,4 +1,5 @@
 🎫 Event Ticketing Smart Contract
+<img width="316" height="432" alt="Image" src="https://github.com/user-attachments/assets/27f4de1b-2589-40d9-80ee-ee73c06b0182" />
 
 A decentralized Event Ticketing System built with Solidity that allows organizers to create events, users to purchase tickets using ETH, and securely transfer tickets to other users.
 
