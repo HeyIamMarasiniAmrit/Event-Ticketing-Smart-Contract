@@ -1,28 +1,189 @@
-REMIX DEFAULT WORKSPACE
+🎫 Event Ticketing Smart Contract
 
-Remix default workspace is present when:
-i. Remix loads for the very first time 
-ii. A new workspace is created with 'Default' template
-iii. There are no files existing in the File Explorer
+A decentralized Event Ticketing System built with Solidity that allows organizers to create events, users to purchase tickets using ETH, and securely transfer tickets to other users.
 
-This workspace contains 3 directories:
+🚀 Features
+🎉 Create an event
+🎟 Buy event tickets using Ether
+🔄 Transfer tickets to another wallet
+📅 Prevent ticket purchases after the event date
+💰 Automatic payment verification
+📊 Track remaining tickets
+🔐 Store all event information on-chain
+🛠 Tech Stack
+Solidity ^0.8.x
+Remix IDE
+Ethereum Virtual Machine (EVM)
+📂 Smart Contract Functions
+1. createEvent()
 
-1. 'contracts': Holds three contracts with increasing levels of complexity.
-2. 'scripts': Contains four typescript files to deploy a contract. It is explained below.
-3. 'tests': Contains one Solidity test file for 'Ballot' contract & one JS test file for 'Storage' contract.
+Creates a new event.
 
-SCRIPTS
+Parameters
 
-The 'scripts' folder has two typescript files which help to deploy the 'Storage' contract using 'ethers.js' libraries.
+Parameter	Type	Description
+name	string	Event name
+date	uint	Future UNIX timestamp
+price	uint	Ticket price in Wei
+ticketCount	uint	Total tickets available
 
-For the deployment of any other contract, just update the contract name from 'Storage' to the desired contract and provide constructor arguments accordingly 
-in the file `deploy_with_ethers.ts`
+Example:
 
-In the 'tests' folder there is a script containing Mocha-Chai unit tests for 'Storage' contract.
+createEvent(
+    "Web3 Seminar",
+    1800000000,
+    1000000000000000,
+    50
+);
+2. buyTicket()
 
-To run a script, right click on file name in the file explorer and click 'Run'. Remember, Solidity file must already be compiled.
-Output from script will appear in remix terminal.
+Allows users to purchase one or more tickets.
 
-Please note, require/import is supported in a limited manner for Remix supported modules.
-For now, modules supported by Remix are ethers, swarmgw, chai, multihashes, remix and hardhat only for hardhat.ethers object/plugin.
-For unsupported modules, an error like this will be thrown: '<module_name> module require is not supported by Remix IDE' will be shown.
+Parameters
+
+Parameter	Type
+id	uint
+quantity	uint
+
+Requirements
+
+Event must exist
+Event date must be in the future
+Correct ETH amount must be sent
+Enough tickets must be available
+
+Example
+
+buyTicket(0,2);
+
+with
+
+Value = ticketPrice × quantity
+3. transferTicket()
+
+Transfers purchased tickets to another wallet.
+
+Parameters
+
+Parameter	Type
+id	uint
+quantity	uint
+to	address
+
+Requirements
+
+Event exists
+Event hasn't occurred
+Sender owns enough tickets
+
+Example
+
+transferTicket(
+    0,
+    1,
+    0xReceiverAddress
+);
+📦 Data Structures
+Event Struct
+struct Event {
+    address organizer;
+    string name;
+    uint date;
+    uint price;
+    uint ticketCount;
+    uint ticketRemain;
+}
+Mappings
+mapping(uint => Event) public events;
+
+mapping(address => mapping(uint => uint))
+public tickets;
+🔄 Workflow
+Organizer
+     │
+     ▼
+Create Event
+     │
+     ▼
+Users Buy Tickets
+     │
+     ▼
+ETH Sent to Smart Contract
+     │
+     ▼
+Remaining Tickets Updated
+     │
+     ▼
+Users Can Transfer Tickets
+🧪 Testing
+
+You can test this contract using Remix IDE.
+
+Deploy
+
+Deploy the contract.
+
+Create Event
+Name: Web3 Seminar
+
+Date: Future UNIX Timestamp
+
+Price: 1000000000000000 (0.001 ETH)
+
+Ticket Count: 50
+Buy Ticket
+Event ID: 0
+
+Quantity: 2
+
+Value: 2000000000000000 Wei
+Transfer Ticket
+Event ID: 0
+
+Quantity: 1
+
+Receiver Address: 0x...
+📚 Solidity Concepts Used
+Structs
+Mappings
+Nested Mappings
+Payable Functions
+msg.sender
+msg.value
+require()
+Storage vs Memory
+block.timestamp
+Ether Transactions
+🚧 Future Improvements
+Frontend with React.js
+Connect using Ethers.js
+MetaMask Integration
+Hardhat Development Environment
+Event Cancellation
+Refund System
+Event Images & Metadata
+NFT-based Tickets (ERC-721)
+Event Search & Filtering
+Owner Withdraw Function
+Unit Tests
+Deploy to Sepolia Testnet
+📸 Demo
+
+Add your Remix screenshots here.
+
+images/
+├── create-event.png
+├── event-created.png
+└── buy-ticket.png
+📄 License
+
+This project is licensed under the GPL-3.0 License.
+
+👨‍💻 Author
+
+Amrit Marasini
+
+💼 Blockchain Developer (Learning)
+🌐 Passionate about Web3, Smart Contracts, AI, and Full-Stack Development
+
+⭐ If you found this project useful, consider giving it a Star on GitHub!
