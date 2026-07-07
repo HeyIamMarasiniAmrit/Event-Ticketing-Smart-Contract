@@ -1,0 +1,10 @@
+{
+  "scripts/demo.sol": {
+    "__sources__": {
+      "scripts/demo.sol": {
+        "content": "// SPDX-License-Identifier: GPL-3.0\r\n\r\npragma solidity >=0.8.2 <0.9.0;\r\n\r\ncontract EventContract {\r\n    struct Event {\r\n        address organizer;\r\n        string name;\r\n        uint date; \r\n        uint price; // Fixed typo from 'proce' to 'price'\r\n        uint ticketCount;\r\n        uint ticketRemain;\r\n    }\r\n  \r\n    mapping(uint => Event) public events;\r\n    mapping(address => mapping(uint => uint)) public tickets;\r\n    uint public nextId;\r\n\r\n    // Added 'payable' in case you want to send ETH when creating an event\r\n    function createEvent(string memory name, uint date, uint price, uint ticketCount) external payable {\r\n        require(date > block.timestamp, \"you can organize event for future date\");\r\n        require(ticketCount > 0, \"you can organize event only if you create more than 0 tickets\");\r\n\r\n        events[nextId] = Event(msg.sender, name, date, price, ticketCount, ticketCount);\r\n        nextId++;\r\n    }\r\n\r\n    function buyTicket(uint id, uint quantity) external payable{\r\n        require(events[id].date!=0, \"Event does not exist\");\r\n        require(events[id].date>block.timestamp,\"Event has already occured\");\r\n        Event storage _event = events[id];\r\n        require(msg.value==(_event.price*quantity),\"Ether is not enough\");\r\n        require(_event.ticketRemain>=quantity,\"Not enough tickets\");\r\n        _event.ticketRemain-=quantity;\r\n        tickets[msg.sender][id]+=quantity;\r\n\r\n\r\n    }\r\n    function transferTicket(uint id, uint quantity, address to ) external {\r\n        require(events[id].date!=0, \"Event does not exist\");\r\n        require(events[id].date>block.timestamp,\"Event has already occured\");\r\n        require(tickets[msg.sender][id]>=quantity,\"you do not have enough tickets\");\r\n        tickets[msg.sender][id] -= quantity;\r\n        tickets[to][id]+=quantity;\r\n\r\n    }\r\n}",
+        "file": "scripts/demo.sol"
+      }
+    }
+  }
+}
